@@ -31,8 +31,6 @@ Create an initializer file `config/initializers/seline.rb`:
 ```ruby
 Seline.configure do |config|
   config.token = 'your-api-token'
-  # Optionally set a custom API host
-  # config.api_host = 'https://custom-api.example.com'
 end
 ```
 
@@ -60,12 +58,6 @@ Seline.track('user: signed up', user_id: 'sk-123', properties: { plan: 'free' })
 
 ```ruby
 Seline.set_user('sk-123', { name: 'John Doe', email: 'john@example.com' })
-```
-
-### Logging page views
-
-```ruby
-Seline.page_view('/home', referrer: 'https://google.com')
 ```
 
 ## Development
