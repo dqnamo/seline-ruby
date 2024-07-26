@@ -2,6 +2,7 @@ require "seline/version"
 require 'net/http'
 require 'uri'
 require 'json'
+require 'byebug'
 
 module Seline
   class << self
@@ -12,20 +13,29 @@ module Seline
       yield(configuration)
     end
 
-    def track(event_name, user_id: nil, properties: {})
+    def track(event: nil, user_id: nil, properties: {})
+      # If event of user_id is nil, raise an error
+      raise 'Event must be provided' if event.nil?
+      raise 'User ID must be provided' if user_id.nil?
+
       payload = {
-        name: event_name,
-        userId: user_id,
-        properties: properties
+        name: event,
+        userId: user_id
       }.compact
 
       send_request('/s/e', payload)
     end
 
-    def set_user(user_id, properties = {})
+    def set_user(user_id: nil, email: nil, properties: {})
+      raise 'User ID must be provided' if user_id.nil?
+      raise 'Email must be provided' if email.nil?
+      # raise 'Properties must be provided' if properties.nil?
+
       payload = {
-        userId: user_id,
-        properties: properties
+        fields: properties.merge({
+          'userId': user_id,
+          'email': email
+        })
       }
 
       send_request('/s/su', payload)
@@ -46,7 +56,9 @@ module Seline
       response = http.request(request)
 
       unless response.is_a?(Net::HTTPSuccess)
-        raise "API request failed: #{response.code} #{response.message}"
+        error_body = JSON.parse(response.body) rescue nil
+        error_message = error_body && error_body['error'] ? error_body['error'] : response.message
+        raise "API request failed: #{response.code} #{error_message}\nPayload: #{payload.inspect}"
       end
 
       JSON.parse(response.body)
