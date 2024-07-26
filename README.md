@@ -1,6 +1,6 @@
 # Seline
 
-Seline is a Ruby gem that provides a simple wrapper for the Seline analytics API. It allows you to easily track events, set user data, and log page views in your Ruby or Rails applications.
+Seline is a Ruby gem that provides a simple wrapper for the Seline analytics API. It allows you to easily track events and set user data in your Ruby or Rails applications.
 
 ## Installation
 
