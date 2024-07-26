@@ -48,16 +48,16 @@ end
 
 ## Usage
 
+### Create user profile
+
+```ruby
+Seline.set_user(user_id: 'sk-123', email: 'john@example.com', properties: { name: 'John Doe' })
+```
+
 ### Tracking events
 
 ```ruby
 Seline.track(event: 'user: signed up', user_id: 'sk-123', properties: { plan: 'free' })
-```
-
-### Setting user data
-
-```ruby
-Seline.set_user(user_id: 'sk-123', email: 'john@example.com', properties: { name: 'John Doe' })
 ```
 
 ## Development
